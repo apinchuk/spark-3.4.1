@@ -3,18 +3,18 @@ entries:
   spark-helm-chart:
   - apiVersion: v1
     appVersion: 3.4.1
-    created: "2023-11-03T13:23:55.699205196-07:00"
-    description: Helm chart for Spark History Server
+    created: "2023-11-03T13:57:41.507738762-07:00"
+    description: Helm chart for Spark 3.4.1 on K8S
     digest: fb2b32eb6e17aaa52ee61c7a89d5bf19b13a4090ce249001928b157122c353d6
     home: https://spark.apache.org
     keywords:
     - spark
     - history-server
-    name: spark-helm-chart
+    name: spark-3.4.1
     sources:
     - https://github.com/apache/spark
     - https://github.com/lightbend/spark-history-server-docker
     urls:
-    - https://apinchuk.github.io/spark-3.4.1/spark-helm-chart-1.0.0.tgz
+    - https://apinchuk.github.io/spark-3.4.1/spark-3.4.1.tgz
     version: 1.0.0
-generated: "2023-11-03T13:23:55.698513229-07:00"
+generated: "2023-11-03T13:57:41.507217845-07:00"
