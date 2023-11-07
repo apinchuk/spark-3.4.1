@@ -5,7 +5,7 @@ home: https://spark.apache.org
 keywords:
 - spark
 - history-server
-name: spark-3.4.1
+name: spark3
 sources:
 - https://github.com/apache/spark
 - https://github.com/lightbend/spark-history-server-docker
