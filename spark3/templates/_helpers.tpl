@@ -51,4 +51,4 @@ Create the name of the service account to use
 {{- else -}}
     {{ default "default1" .Values.serviceAccount.name }}
 {{- end -}}
-{{- end -
+{{- end -}}
