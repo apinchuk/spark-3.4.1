@@ -13,13 +13,13 @@ If release name contains chart name it will be used as a full name.
 */}}
 {{- define "spark-history-server.fullname" -}}
 {{- if .Values.fullnameOverride -}}
-{{- .Values.fullnameOverride "history2" | trunc 63 | trimSuffix "-" -}}
+{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-{{- $name := default .Chart.Name .Values.nameOverride "history" -}}
+{{- $name := default .Chart.Name .Values.nameOverride -}}
 {{- if contains $name .Release.Name -}}
-{{- printf "%s-%s" .Release.Name "history3" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" .Release.Name "history-server" | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-{{- printf "%s-%s" .Release.Name $name "history4" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" .Release.Name $name "history-server" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- end -}}
 {{- end -}}
@@ -32,7 +32,7 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
-Create the name of the service account to use
+Create the name of the service account to use for spark history
 */}}
 {{- define "spark-history-server.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
@@ -41,3 +41,14 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "spark.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create -}}
+    {{ default "spark" .Values.serviceAccount.name }}
+{{- else -}}
+    {{ default "default1" .Values.serviceAccount.name }}
+{{- end -}}
+{{- end -
