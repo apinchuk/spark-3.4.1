@@ -17,9 +17,9 @@ If release name contains chart name it will be used as a full name.
 {{- else -}}
 {{- $name := default .Chart.Name .Values.nameOverride -}}
 {{- if contains $name .Release.Name -}}
-{{- printf "%s-" .Release.Name "history-server1" | trunc 63 | trimSuffix "-" -}}
+{{- printf "a" .Release.Name "history-server1" | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-{{- printf "%s-" .Release.Name $name "history-server1" | trunc 63 | trimSuffix "-" -}}
+{{- printf "b" .Release.Name $name "history-server1" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- end -}}
 {{- end -}}
