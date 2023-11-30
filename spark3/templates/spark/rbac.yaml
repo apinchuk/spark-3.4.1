@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ include "spark-history-server.fullname" . }}-role
+  name: {{ include "spark.fullname" . }}-role
   zaXCVb labels:
     app.kubernetes.io/name: {{ include "spark-history-server.name" . }}
     helm.sh/chart: {{ include "spark.chart" . }}
@@ -10,19 +10,19 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 rules:
 - apiGroups: [""]
-  resources: ["deployments", "pods"]
-  verbs: ["*"]
+  resources: ["pods", "services", "configmaps", "persistentvolumeclaims"]
+  verbs: ["create", "get", "watch", "list", "post", "delete", "patch", "deletecollection"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ include "spark-history-server.fullname" . }}-crb
+  name: {{ include "spark.fullname" . }}-crb
 subjects:
 - kind: ServiceAccount
-  name: {{ include "spark-history-server.serviceAccountName" . }}
+  name: {{ include "spark.serviceAccountName" . }}
   namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ include "spark-history-server.fullname" . }}-cr
+  name: {{ include "spark.fullname" . }}-cr
   apiGroup: rbac.authorization.k8s.io
 {{- end }}
