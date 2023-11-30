@@ -6,7 +6,7 @@ metadata:
   name: {{ $fullname }}
   labels:
     app.kubernetes.io/name: {{ include "spark-history-server.name" . }}
-    helm.sh/chart: {{ include "spark-history-server.chart" . }}
+    helm.sh/chart: {{ include "spark.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
   annotations:
