@@ -62,7 +62,7 @@ Create the name of the service account to use
 */}}
 {{- define "spark.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
-    {{ default (include "spark.fullname" .) .Values.serviceAccount.name }}
+    {{ default "spark" }}
 {{- else -}}
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
