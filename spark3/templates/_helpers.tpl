@@ -66,3 +66,11 @@ Create  clusterrole name
 {{- define "spark.clusterrole" -}}
 {{- printf "%s-%s" "spark.fullname" "role" | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+
+{{/*
+Create  clusterrolebinding name
+*/}}
+{{- define "spark.clusterrolebinding" -}}
+{{- printf "%s-%s" "spark.fullname" "crb" | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}

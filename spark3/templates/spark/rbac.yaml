@@ -13,11 +13,13 @@ rules:
 - apiGroups: [""]
   resources: ["pods", "services", "configmaps", "persistentvolumeclaims"]
   verbs: ["create", "get", "watch", "list", "post", "delete", "patch", "deletecollection"]
+{{- end }}  
 ---
+{{- if not (lookup "rbac.authorization.k8s.io/v1" "ClusterRoleBinding" "" "spark.clusterrolebinding") }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ include "spark.fullname" . }}-crb
+  name: {{ include "spark.clusterrolebinding" . }}
 subjects:
 - kind: ServiceAccount
   name: {{ include "spark.serviceAccountName" . }}
