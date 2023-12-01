@@ -4,7 +4,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: {{ include "spark.fullname" . }}-role
-  zaXCVb labels:
+  labels:
     app.kubernetes.io/name: {{ include "spark-history-server.name" . }}
     helm.sh/chart: {{ include "spark.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
