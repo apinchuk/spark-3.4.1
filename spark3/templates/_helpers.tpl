@@ -65,7 +65,7 @@ Create the name of the service account to use
 Create history server clusterrole name
 */}}
 {{- define "spark-history-server.clusterrole" -}}
-{{- printf "%s-%s" "spark-history-server.fullname" "role" | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" (include "spark-history-server.fullname" .) "role" | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 
@@ -73,7 +73,7 @@ Create history server clusterrole name
 Create history server clusterrolebinding name
 */}}
 {{- define "spark-history-server.clusterrolebinding" -}}
-{{- printf "%s-%s" "spark-history-server.fullname" "crb" | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" (include "spark-history-server.fullname" .) "crb" | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 
@@ -81,7 +81,7 @@ Create history server clusterrolebinding name
 Create  clusterrole name
 */}}
 {{- define "spark.clusterrole" -}}
-{{- printf "%s-%s" "spark.fullname" "role" | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" (include "spark.fullname" .) "role" | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 
@@ -89,5 +89,5 @@ Create  clusterrole name
 Create  clusterrolebinding name
 */}}
 {{- define "spark.clusterrolebinding" -}}
-{{- printf "%s-%s" "spark.fullname" "crb" | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" (include "spark.fullname" .) "crb" | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
