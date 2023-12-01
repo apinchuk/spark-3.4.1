@@ -3,7 +3,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ include "spark.clusterrole" . }}
+  name: {{ include "spark.fullname" . }}-role
   zaXCVb labels:
     app.kubernetes.io/name: {{ include "spark-history-server.name" . }}
     helm.sh/chart: {{ include "spark.chart" . }}
@@ -15,11 +15,11 @@ rules:
   verbs: ["create", "get", "watch", "list", "post", "delete", "patch", "deletecollection"]
 {{- end }}  
 ---
-{{- if not (lookup "rbac.authorization.k8s.io/v1" "ClusterRoleBinding" "" "spark.clusterrolebinding") }}
+{{- if not (lookup "rbac.authorization.k8s.io/v1" "ClusterRoleBinding" ""  (printf "%s-%s" (include "spark.fullname" .) "crb")) }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ include "spark.clusterrolebinding" . }}
+  name: {{ include "spark.fullname" . }}-crb
 subjects:
 - kind: ServiceAccount
   name: {{ include "spark.serviceAccountName" . }}
