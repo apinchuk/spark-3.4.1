@@ -27,3 +27,4 @@ roleRef:
   name: {{ include "spark.fullname" . }}-cr
   apiGroup: rbac.authorization.k8s.io
 {{- end }}
+{{- end }}
