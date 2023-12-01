@@ -58,3 +58,11 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+
+{{/*
+Create  clusterrole name
+*/}}
+{{- define "spark.clusterrole" -}}
+{{- printf "%s-%s" "spark.fullname" "role" | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}

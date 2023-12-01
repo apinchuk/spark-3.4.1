@@ -1,9 +1,9 @@
 {{- if .Values.rbac.create }}
-{{- if not (lookup "rbac.authorization.k8s.io/v1" "ClusterRole" "" "spark.fullname"-role) }}
+{{- if not (lookup "rbac.authorization.k8s.io/v1" "ClusterRole" "" "spark.clusterrole") }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ include "spark.fullname" . }}-role
+  name: {{ include "spark.clusterrole" . }}
   zaXCVb labels:
     app.kubernetes.io/name: {{ include "spark-history-server.name" . }}
     helm.sh/chart: {{ include "spark.chart" . }}
