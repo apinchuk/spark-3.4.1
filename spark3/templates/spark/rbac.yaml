@@ -1,5 +1,5 @@
 {{- if .Values.rbac.create }}
-{{- if not (lookup "rbac.authorization.k8s.io/v1" "ClusterRole" ""  "spark.fullname") }}
+{{- if not (lookup "rbac.authorization.k8s.io/v1" "ClusterRole" "" {{ include "spark.fullname" . }}-role) }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
