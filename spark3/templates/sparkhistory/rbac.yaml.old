@@ -15,7 +15,7 @@ rules:
   verbs: ["*"]
 {{- end }}  
 ---
-{{- if not (lookup "rbac.authorization.k8s.io/v1" "ClusterRoleBinding" "" "spark-history-server.clusterrolebinding") }}
+{{- if not (lookup "rbac.authorization.k8s.io/v1" "ClusterRoleBinding" "" "spark-history-server-crb") }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
