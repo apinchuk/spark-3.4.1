@@ -41,4 +41,4 @@ data:
       kubectl delete pods $suceedPods;
       echo "Deleted pods that were successful"
     fi
-{{-end }}
+{{- end }}

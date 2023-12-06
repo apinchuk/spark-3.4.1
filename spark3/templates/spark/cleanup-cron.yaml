@@ -24,5 +24,4 @@ spec:
             volumeMounts:
               - name: cleanup-script
                 mountPath: /mnt/
-
-{{-end }}
+{{- end }}
