@@ -9,8 +9,8 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
-        #  schedule: {{ .Values.podCleanUp.frequency }}
-  schedule: "*/1 * * * *"
+  schedule: {{ .Values.podCleanUp.frequency }}
+        #schedule: "*/1 * * * *"
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 100
