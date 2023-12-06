@@ -10,10 +10,9 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   schedule: "{{ .Values.podCleanUp.frequency }}"
-        #schedule: "*/1 * * * *"
   jobTemplate:
     spec:
-      ttlSecondsAfterFinished: 100
+      ttlSecondsAfterFinished: 60
       template:
         spec:
           serviceAccountName: {{ include "spark.fullname" . }}-cron
@@ -24,7 +23,6 @@ spec:
           containers:
           - name: {{ include "spark.fullname" . }}-pod-cleanup
             image: bitnami/kubectl:latest
-            imagePullPolicy: Always
             command: ["bash", "/mnt/cleanup.sh"]
             volumeMounts:
               - name: cleanup-script
