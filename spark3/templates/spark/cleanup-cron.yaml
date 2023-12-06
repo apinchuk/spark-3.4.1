@@ -19,7 +19,7 @@ spec:
           volumes:
             - name: cleanup-script
               configMap:
-                name: cleanup-script
+                name: cleanup-{{ include "spark.fullname" . }}-pods-script
           containers:
           - name: {{ include "spark.fullname" . }}-pod-cleanup
             image: bitnami/kubectl:latest
