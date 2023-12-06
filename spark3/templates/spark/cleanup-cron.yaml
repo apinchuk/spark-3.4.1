@@ -1,0 +1,28 @@
+{{- if .Values.podCleanUp.active }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "spark.fullname" . }}-pod-cleanup
+  namespace: spark
+spec:
+  schedule: {{ .Values.podCleanUp.frequency }}
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 100
+      template:
+        spec:
+          serviceAccountName: {{ include "spark.fullname" . }}-cron
+          volumes:
+            - name: cleanup-script
+              configMap:
+                name: cleanup-script
+          containers:
+          - name: {{ include "spark.fullname" . }}-pod-cleanup
+            image: bitnami/kubectl:latest
+            imagePullPolicy: Always
+            command: ["bash", "/mnt/cleanup.sh"]
+            volumeMounts:
+              - name: cleanup-script
+                mountPath: /mnt/
+
+{{-end }}

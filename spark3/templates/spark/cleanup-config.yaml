@@ -1,0 +1,44 @@
+{{- if .Values.podCleanUp.active }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cleanup-{{ include "spark.fullname" . }}-pods-script
+  labels:
+    app.kubernetes.io/name: {{ include "spark-history-server.name" . }}
+    helm.sh/chart: {{ include "spark.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+  cleanup.sh: |
+    #!/bin/bash
+
+    #get pods that are stuck in NotReady state that are older than 2 days
+    notReadyPods=$(kubectl get pods |  awk 'match($5,/[0-9]+d/)' | grep NotReady | awk '{print $1}' )
+
+    #get driver pods that have finished successfully that are older than 2 days
+    suceedPods=$(kubectl get pod  --field-selector=status.phase=Succeeded  -l spark-role=driver |  awk 'match($5,/[0-9]+d/)' |  awk '{print $1}' )
+
+    echo "NotReady pods: " $notReadyPods
+
+    #delete pods that are in NotReady state and are older than 2 days
+    if [[ -n $notReadyPods ]]; then
+      kubectl delete pods $notReadyPods;
+      echo "Deleted NotReady pods"
+    fi
+
+    #delete driver pods that have failed
+    kubectl delete pods  --field-selector=status.phase=Failed  -l spark-role=driver;
+    echo "Deleted driver pods that were in Failed state"
+
+    #delete executor pods that have failed
+    kubectl delete pods --field-selector=status.phase=Failed  -l spark-role=executor;
+    echo "Deleted executor pods that in Failed state"
+
+    echo "Successful pods: " $suceedPods
+
+    #delete driver pods that have finished Successfully and are older than 2 days
+    if [[ -n $suceedPods ]]; then
+      kubectl delete pods $suceedPods;
+      echo "Deleted pods that were successful"
+    fi
+{{-end }}
