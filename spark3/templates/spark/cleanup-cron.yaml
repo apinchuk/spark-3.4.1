@@ -3,7 +3,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ include "spark.fullname" . }}-pod-cleanup
-  namespace: spark
 spec:
   schedule: {{ .Values.podCleanUp.frequency }}
   jobTemplate:
