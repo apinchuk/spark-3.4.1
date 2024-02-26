@@ -118,7 +118,6 @@ wasbs:
   containerKeyName: azure-blob-container-name
   logDirectory: wasbs:///spark-hs
 
-imagePullSecrets: []
 
 nodeSelector: {}
 
