@@ -15,6 +15,6 @@ entries:
     - https://github.com/apache/spark
     - https://github.com/lightbend/spark-history-server-docker
     urls:
-    - https://amr-idc-registry-pre.infra-host.com/dpai/spark-history/spark3-1.0.0.tgz
+    - https://apinchuk.github.io/spark-3.4.1/spark3-1.0.0.tgz
     version: 1.0.0
 generated: "2024-02-07T11:45:02.759395384-07:00"
