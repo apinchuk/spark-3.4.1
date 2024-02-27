@@ -22,8 +22,8 @@ spec:
                 name: cleanup-{{ include "spark.fullname" . }}-pods-script
           containers:
           - name: {{ include "spark.fullname" . }}-pod-cleanup
-            #image: bitnami/kubectl:latest
-            image:  apinchuk1/spark-cleanup:1
+            image: bitnami/kubectl:latest
+            #image:  apinchuk1/spark-cleanup:1
             command: ["bash", "/mnt/cleanup.sh"]
             volumeMounts:
               - name: cleanup-script
