@@ -13,14 +13,18 @@ podCleanUp:
   active: true
   frequency: "*/1 * * * *"
 
+sparkdefaults:
+  image:
+
 image:
   repository: apinchuk1/spark-history-server
-  tag: "3.4.1"
-  pullPolicy: Always
+  tag: "3.5.0"    
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
 
 service:
   type: LoadBalancer
-  # nodePort: 32000
   port:
     number: 18080
     name: http-historyport
@@ -98,11 +102,11 @@ s3:
   enableS3: true
   enableIAM: false
   # Omit for IAM role-based or provider-based authentication.
-  secret: aws-secrets
+  secreti: aws-secrets
   # accessKeyName is an AWS access key ID. Omit for IAM role-based or provider-based authentication.
-  accessKeyName: aws-access-key
+  accessKeyName: access-key
   # secretKey is AWS secret key. Omit for IAM role-based or provider-based authentication.
-  secretKeyName: aws-secret-key
+  secretKeyName: secret-key
   logDirectory: s3a://s3-eks-idc/spark/spark-history/
   # custom s3 endpoint. Keep default for using aws s3 endpoint
   endpoint: default
