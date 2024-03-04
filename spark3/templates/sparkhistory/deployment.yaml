@@ -24,7 +24,6 @@ spec:
 {{- end }}
     spec:
       serviceAccountName: {{ include "spark-history-server.serviceAccountName" . }}
-    {{- with .Values.imagePullSecrets }}
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
