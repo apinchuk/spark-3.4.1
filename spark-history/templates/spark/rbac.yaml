@@ -1,28 +1,30 @@
 {{- if .Values.rbac.create }}
+{{- if not (lookup "rbac.authorization.k8s.io/v1" "ClusterRole" "" (printf "%s-%s" (include "spark.fullname" .) "role"))  }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ include "spark-history-server.fullname" . }}-cr
+  name: {{ include "spark.fullname" . }}-role
   labels:
     app.kubernetes.io/name: {{ include "spark-history-server.name" . }}
-    helm.sh/chart: {{ include "spark-history-server.chart" . }}
+    helm.sh/chart: {{ include "spark.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 rules:
 - apiGroups: [""]
-  resources: ["deployments", "pods"]
-  verbs: ["*"]
+  resources: ["pods", "services", "configmaps", "persistentvolumeclaims"]
+  verbs: ["create", "get", "watch", "list", "post", "delete", "patch", "deletecollection"]
+{{- end }}  
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ include "spark-history-server.fullname" . }}-crb
+  name: {{ .Release.Namespace }}-crb
 subjects:
 - kind: ServiceAccount
-  name: {{ include "spark-history-server.serviceAccountName" . }}
+  name: {{ include "spark.serviceAccountName" . }}
   namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
-  name: {{ include "spark-history-server.fullname" . }}-cr
+  name: {{ include "spark.fullname" . }}-role
   apiGroup: rbac.authorization.k8s.io
 {{- end }}

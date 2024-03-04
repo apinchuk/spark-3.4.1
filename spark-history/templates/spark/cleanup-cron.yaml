@@ -1,0 +1,32 @@
+{{- if .Values.podCleanUp.active }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "spark.fullname" . }}-pod-cleanup
+  labels:
+    app.kubernetes.io/name: {{ include "spark-history-server.name" . }}
+    helm.sh/chart: {{ include "spark.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  schedule: "{{ .Values.podCleanUp.frequency }}"
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 60
+      template:
+        spec:
+          serviceAccountName: {{ include "spark.fullname" . }}-cron
+          volumes:
+            - name: cleanup-script
+              configMap:
+                name: cleanup-{{ include "spark.fullname" . }}-pods-script
+          containers:
+          - name: {{ include "spark.fullname" . }}-pod-cleanup
+            #image: bitnami/kubectl:latest
+            image:  apinchuk1/spark-cleanup:1
+            command: ["bash", "/mnt/cleanup.sh"]
+            volumeMounts:
+              - name: cleanup-script
+                mountPath: /mnt/
+          restartPolicy: OnFailure
+{{- end }}

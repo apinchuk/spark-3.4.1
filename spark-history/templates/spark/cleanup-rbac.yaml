@@ -1,0 +1,43 @@
+{{- if .Values.podCleanUp.active }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "spark.fullname" . }}-cron
+  labels:
+    app.kubernetes.io/name: {{ include "spark-history-server.name" . }}
+    helm.sh/chart: {{ include "spark.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "spark.fullname" . }}-cron-role
+  labels:
+    app.kubernetes.io/name: {{ include "spark-history-server.name" . }}
+    helm.sh/chart: {{ include "spark.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["list", "delete"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ include "spark.fullname" . }}-cron-crb
+  labels:
+    app.kubernetes.io/name: {{ include "spark-history-server.name" . }}
+    helm.sh/chart: {{ include "spark.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+subjects:
+- kind: ServiceAccount
+  name: {{ include "spark.fullname" . }}-cron
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: Role
+  name: {{ include "spark.fullname" . }}-cron-role
+  apiGroup: ""
+{{- end }} 
