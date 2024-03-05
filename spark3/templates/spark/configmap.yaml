@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
     spark-defaults.conf: |
-      spark.master={{ $KUBERNETES_SERVICE_HOST }}
+      spark.master={{ $HELM_KUBEAPISERVER }}
       
       spark.kubernetes.namespace={{ .Release.Namespace }}
       spark.kubernetes.authenticate.driver.serviceAccountName=spark
