@@ -9,7 +9,28 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
     spark-defaults.conf: |
+      spark.master={{ $KUBERNETES_SERVICE_HOST }}
+      
       spark.kubernetes.namespace={{ .Release.Namespace }}
       spark.kubernetes.authenticate.driver.serviceAccountName=spark
-      spark.kubernetes.container.image={{ .Values.sparkdefaults.image }}
+      spark.kubernetes.authenticate.executor.serviceAccountName=spark
+      spark.kubernetes.container.image={{ .Values.sparkdefaults.image }}:{{ .Values.sparkdefaults.tag }}
+      spark.kubernetes.docker.image.pullPolicy=IfNotPresent
       spark.sql.catalogImplementation=hive
+      spark.hadoop.hive.metastore.uris={{ .Values.sparkdefaults.hmsname }}.svc.cluster.local:9083
+
+      spark.eventLog.enabled=true
+      spark.eventLog.dir=s3a://{{ .Values.sparkdefaults.logbucketname }}//{{ .Values.sparkdefaults.logdirectory }}
+      spark.history.fs.logDirectory=s3a://{{ .Values.sparkdefaults.logbucketname }}//{{ .Values.sparkdefaults.logdirectory }}
+      spark.hadoop.fs.s3a.access.key={{  }}
+      spark.hadoop.fs.s3a.secret.key={{  }}
+      spark.hadoop.fs.s3a.fast.upload=true
+      spark.hadoop.fs.s3a.path.style.access=true
+      spark.hadoop.fs.s3a.aws.credentials.provider=org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider
+      spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem
+
+      spark.executor.instances={{ .Values.sparkdefaults.executor.instances }}
+      spark.executor.memory={{ .Values.sparkdefaults.driver.memory }}
+      spark.executor.cpu={{ .Values.sparkdefaults.driver.cpu }}
+      spark.executor.memory={{ .Values.sparkdefaults.executor.memory }}
+      spark.executor.cpu={{ .Values.sparkdefaults.executor.cpu }}
