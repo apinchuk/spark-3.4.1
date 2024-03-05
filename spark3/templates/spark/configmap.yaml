@@ -1,4 +1,3 @@
-{{ $cluster := exec "kubectl" (list "config" "view" "--minify" "-o" "jsonpath='{.clusters[*].name}'") }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -10,7 +9,7 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
     spark-defaults.conf: |
-      spark.master={{ $cluster }}
+      spark.master={{ $(kubectl get svc -n spark) }}
       
       spark.kubernetes.namespace={{ .Release.Namespace }}
       spark.kubernetes.authenticate.driver.serviceAccountName=spark
