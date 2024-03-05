@@ -8,12 +8,8 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
-  {{- /*
-    Glob files to allow them to be mounted by the hub pod
-
     spark-defaults.conf: |
       spark.kubernetes.namespace={{ .Release.Namespace }}
       spark.kubernetes.authenticate.driver.serviceAccountName=spark
       spark.kubernetes.container.image={{ .Values.sparkdefaults.image }}
       spark.sql.catalogImplementation=hive
-  */}}
