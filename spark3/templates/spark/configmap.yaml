@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
     spark-defaults.conf: |
-      spark.master={{ $(kubectl get svc -n spark) }}
+      spark.master={{ (lookup "v1" "cluster-info" "" "") }}
       
       spark.kubernetes.namespace={{ .Release.Namespace }}
       spark.kubernetes.authenticate.driver.serviceAccountName=spark
