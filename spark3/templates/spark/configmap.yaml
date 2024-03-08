@@ -1,5 +1,5 @@
 {{- $awssecret := default (dict "data" (dict)) (lookup "v1" "Secret" .Release.Namespace "aws-secrets") }}
-{{- if $awssecret.data.access-key }}
+{{- if "$awssecret.data.access-key" }}
   {{- $accesskey1 := $secret.data.access-key | b64dec }}
 {{- end }}
 apiVersion: v1
