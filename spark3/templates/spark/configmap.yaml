@@ -13,8 +13,8 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
     spark-defaults.conf: |
-      spark.master={{ $KUBERNETES_SERVICE_HOST }}
-      
+      spark.master=test
+
       spark.kubernetes.namespace={{ .Release.Namespace }}
       spark.kubernetes.authenticate.driver.serviceAccountName=spark
       spark.kubernetes.authenticate.executor.serviceAccountName=spark
