@@ -1,7 +1,11 @@
-{{- $awssecret := default (dict "data" (dict)) (lookup "v1" "Secret" .Release.Namespace "aws-secrets") }}
-{{- $secretData := (get $awssecret "data") | default dict }}
-{{- $accesskey1 := (get $secretData "access-key") | b64dec }}
-{{- $secretkey1 := (get $secretData "secret-key") | b64dec }}
+{{- $logawssecret := default (dict "data" (dict)) (lookup "v1" "Secret" .Release.Namespace .Values.sparkdefaults.logsecretname) }}
+{{- $logsecretdata := (get $logawssecret "data") | default dict }}
+{{- $logaccesskey := (get $logsecretdata "access-key") | b64dec }}
+{{- $logsecretkey := (get $logsecretdata "secret-key") | b64dec }}
+{{- $codeawssecret := default (dict "data" (dict)) (lookup "v1" "Secret" .Release.Namespace .Values.sparkdefaults.codesecretname) }}
+{{- $codesecretdata := (get $codeawssecret "data") | default dict }}
+{{- $codeaccesskey := (get $codesecretdata "access-key") | b64dec }}
+{{- $codesecretkey := (get $codesecretdata "secret-key") | b64dec }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -26,8 +30,10 @@ data:
       spark.eventLog.enabled=true
       spark.eventLog.dir=s3a://{{ .Values.sparkdefaults.logbucketname }}//{{ .Values.sparkdefaults.logdirectory }}
       spark.history.fs.logDirectory=s3a://{{ .Values.sparkdefaults.logbucketname }}//{{ .Values.sparkdefaults.logdirectory }}
-      spark.hadoop.fs.s3a.access.key={{ $accesskey1 }}
-      spark.hadoop.fs.s3a.secret.key={{ $secretkey1 }}
+      spark.hadoop.fs.s3a.bucket.{{ .Values.sparkdefaults.logbucketname }}.access.key={{ $logaccesskey }}
+      spark.hadoop.fs.s3a.bucket.{{ .Values.sparkdefaults.logbucketname }}.secret.key={{ $logsecretkey }}
+      spark.hadoop.fs.s3a.bucket.{{ .Values.sparkdefaults.codebucketname }}.access.key={{ $codeaccesskey }}
+      spark.hadoop.fs.s3a.bucket.{{ .Values.sparkdefaults.codebucketname  }}.secret.key={{ $codesecretkey }}
       spark.hadoop.fs.s3a.fast.upload=true
       spark.hadoop.fs.s3a.path.style.access=true
       spark.hadoop.fs.s3a.aws.credentials.provider=org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider
