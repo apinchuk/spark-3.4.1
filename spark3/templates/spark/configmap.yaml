@@ -1,6 +1,6 @@
 {{- $awssecret := default (dict "data" (dict)) (lookup "v1" "Secret" .Release.Namespace "aws-secrets") }}
 {{- $secretData := (get $awssecret "data") | default dict }}
-{{- $accesskey1 := (get $secretData "access-key") | default (randAlphaNum 32 | b64enc) }}
+{{- $accesskey1 := (get $secretData "access-key") }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
