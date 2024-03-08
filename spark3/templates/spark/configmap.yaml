@@ -1,6 +1,7 @@
 {{- $awssecret := default (dict "data" (dict)) (lookup "v1" "Secret" .Release.Namespace "aws-secrets") }}
 {{- $secretData := (get $awssecret "data") | default dict }}
-{{- $accesskey1 := (get $secretData "access-key") }}
+{{- $accesskey1 := (get $secretData "access-key") | base64 --decode }}
+{{- $secretkey1 := (get $secretData "secret-key") | base64 --decode }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -26,7 +27,7 @@ data:
       spark.eventLog.dir=s3a://{{ .Values.sparkdefaults.logbucketname }}//{{ .Values.sparkdefaults.logdirectory }}
       spark.history.fs.logDirectory=s3a://{{ .Values.sparkdefaults.logbucketname }}//{{ .Values.sparkdefaults.logdirectory }}
       spark.hadoop.fs.s3a.access.key={{ $accesskey1 }}
-      #spark.hadoop.fs.s3a.secret.key=test
+      spark.hadoop.fs.s3a.secret.key={{ $secretkey1 }}
       spark.hadoop.fs.s3a.fast.upload=true
       spark.hadoop.fs.s3a.path.style.access=true
       spark.hadoop.fs.s3a.aws.credentials.provider=org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider
