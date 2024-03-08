@@ -1,4 +1,7 @@
 {{- $awssecret := default (dict "data" (dict)) (lookup "v1" "Secret" .Release.Namespace "aws-secrets") }}
+{{- if $awssecret.data."access-key" }}
+    {{- $accesskey1 := $awssecret.data."access-key" | b64dec }}
+{{- end }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -23,7 +26,7 @@ data:
       spark.eventLog.enabled=true
       spark.eventLog.dir=s3a://{{ .Values.sparkdefaults.logbucketname }}//{{ .Values.sparkdefaults.logdirectory }}
       spark.history.fs.logDirectory=s3a://{{ .Values.sparkdefaults.logbucketname }}//{{ .Values.sparkdefaults.logdirectory }}
-      spark.hadoop.fs.s3a.access.key={{ $awssecret }}
+      spark.hadoop.fs.s3a.access.key={{ $accesskey1 }}
       #spark.hadoop.fs.s3a.secret.key=test
       spark.hadoop.fs.s3a.fast.upload=true
       spark.hadoop.fs.s3a.path.style.access=true
