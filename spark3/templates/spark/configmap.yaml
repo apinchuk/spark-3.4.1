@@ -1,4 +1,4 @@
-{{- $logawssecret := default (dict "data" (dict)) (lookup "v1" "Secret" .Release.Namespace .Values.sparkdefaults.logsecretname) }}
+{{- $logawssecret := default (dict "data" (dict)) (lookup "v1" "Secret" .Release.Namespace .Values.s3.secret) }}
 {{- $logsecretdata := (get $logawssecret "data") | default dict }}
 {{- $logaccesskey := (get $logsecretdata "access-key") | b64dec }}
 {{- $logsecretkey := (get $logsecretdata "secret-key") | b64dec }}
@@ -28,10 +28,10 @@ data:
       spark.hadoop.hive.metastore.uris={{ .Values.sparkdefaults.hmsname }}.svc.cluster.local:9083
 
       spark.eventLog.enabled=true
-      spark.eventLog.dir=s3a://{{ .Values.sparkdefaults.logbucketname }}//{{ .Values.sparkdefaults.logdirectory }}
-      spark.history.fs.logDirectory=s3a://{{ .Values.sparkdefaults.logbucketname }}//{{ .Values.sparkdefaults.logdirectory }}
-      spark.hadoop.fs.s3a.bucket.{{ .Values.sparkdefaults.logbucketname }}.access.key={{ $logaccesskey }}
-      spark.hadoop.fs.s3a.bucket.{{ .Values.sparkdefaults.logbucketname }}.secret.key={{ $logsecretkey }}
+      spark.eventLog.dir={{ .Values.s3.logDirectory }}
+      spark.history.fs.logDirectory={{ .Values.s3.logDirectory }}
+      spark.hadoop.fs.s3a.bucket.{{ .Values.s3.logBucket }}.access.key={{ $logaccesskey }}
+      spark.hadoop.fs.s3a.bucket.{{ .Values.s3.logBucket }}.secret.key={{ $logsecretkey }}
       spark.hadoop.fs.s3a.bucket.{{ .Values.sparkdefaults.codebucketname }}.access.key={{ $codeaccesskey }}
       spark.hadoop.fs.s3a.bucket.{{ .Values.sparkdefaults.codebucketname  }}.secret.key={{ $codesecretkey }}
       spark.hadoop.fs.s3a.fast.upload=true
