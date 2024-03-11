@@ -25,8 +25,7 @@ data:
       spark.kubernetes.container.image={{ .Values.sparkdefaults.image }}:{{ .Values.sparkdefaults.tag }}
       spark.kubernetes.docker.image.pullPolicy=IfNotPresent
       spark.sql.catalogImplementation=hive
-      spark.hadoop.hive.metastore.uris={{ .Values.sparkdefaults.hmsname }}.svc.cluster.local:9083
-
+      spark.hadoop.hive.metastore.uris={{ .Values.sparkdefaults.hmsname }}
       spark.eventLog.enabled=true
       spark.eventLog.dir={{ .Values.s3.logDirectory }}
       spark.history.fs.logDirectory={{ .Values.s3.logDirectory }}
@@ -44,3 +43,10 @@ data:
       spark.executor.cpu={{ .Values.sparkdefaults.driver.cpu }}
       spark.executor.memory={{ .Values.sparkdefaults.executor.memory }}
       spark.executor.cpu={{ .Values.sparkdefaults.executor.cpu }}
+    hive-site.xml:  |
+      <configuration>
+        <property>
+          <name>hive.metastore.uris</name>
+          <value>thrift://{{ .Values.sparkdefaults.hmsname }}</value>
+        </property>
+      </configuration>
