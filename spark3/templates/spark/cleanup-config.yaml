@@ -11,9 +11,9 @@ metadata:
 data:
   cleanup.sh: |
     #!/bin/bash
-    trap "curl --max-time 2 -s -f -XPOST http://127.0.0.1:15020/quitquitquit" EXIT
-    while ! curl -s -f http://127.0.0.1:15020/healthz/ready; do sleep 1; done
-       echo "Ready!"
+    #trap "curl --max-time 2 -s -f -XPOST http://127.0.0.1:15020/quitquitquit" EXIT
+    #while ! curl -s -f http://127.0.0.1:15020/healthz/ready; do sleep 1; done
+    #   echo "Ready!"
 
     #get pods that are stuck in NotReady state that are older than 2 days
     notReadyPods=$(kubectl get pods |  awk 'match($5,/[0-9]+d/)' | grep NotReady | awk '{print $1}' )
@@ -44,5 +44,6 @@ data:
       kubectl delete pods $suceedPods;
       echo "Deleted pods that were successful"
     fi
+
 
 {{- end }}
