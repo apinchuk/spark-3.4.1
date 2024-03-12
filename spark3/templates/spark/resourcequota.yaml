@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: {{ include "spark.fullname" . }}-quota
+labels:
+  app.kubernetes.io/name: {{ include "spark-history-server.name" . }}
+  helm.sh/chart: {{ include "spark.chart" . }}
+  app.kubernetes.io/instance: {{ .Release.Name }}
+  app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  hard:
+    cpu: {{ .Values.namespacequota.requests.cpu }}
+    limits.cpu: {{ .Values.namespacequota.limits.cpu }}
+    memory: {{ .Values.namespacequota.requests.memory }}
+    limits.memory: {{ .Values.namespacequota.limits.cpu }}
