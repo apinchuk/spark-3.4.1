@@ -11,10 +11,30 @@ serviceAccount:
 
 podCleanUp:
   active: true
-  frequency: "*/1 * * * *"
+  frequency: "0 * * * *"
+
+namespacequota:
+  requests:
+    cpu: 2
+    memory: "2G"
+  limits:
+    cpu: 2
+    memory: "2G"
 
 sparkdefaults:
   image:
+  tag: ""
+  hmsname:
+  codebucketname:
+  codesecretname:
+  executor:
+    instances:
+    cpu: 
+    memory:
+  driver:
+    cpu:
+    memory:
+
 
 image:
   repository: apinchuk1/spark-history-server
@@ -107,7 +127,8 @@ s3:
   accessKeyName: access-key
   # secretKey is AWS secret key. Omit for IAM role-based or provider-based authentication.
   secretKeyName: secret-key
-  logDirectory: s3a://s3-eks-idc/spark/spark-history/
+  logBucket:
+  logDirectory: 
   # custom s3 endpoint. Keep default for using aws s3 endpoint
   endpoint: default
 

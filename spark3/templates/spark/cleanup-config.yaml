@@ -15,18 +15,29 @@ data:
     #while ! curl -s -f http://127.0.0.1:15020/healthz/ready; do sleep 1; done
     #   echo "Ready!"
 
-    #get pods that are stuck in NotReady state that are older than 2 days
-    notReadyPods=$(kubectl get pods |  awk 'match($5,/[0-9]+d/)' | grep NotReady | awk '{print $1}' )
+    #get pods that are stuck in NotReady state
+    notReadyPods=$(kubectl get pods | grep NotReady | awk '{print $1}' )
 
-    #get driver pods that have finished successfully that are older than 2 days
-    suceedPods=$(kubectl get pod  --field-selector=status.phase=Succeeded  -l spark-role=driver |  awk 'match($5,/[0-9]+d/)' |  awk '{print $1}' )
+    #get pods that are stuck in Pending state for longer than 48 hours
+    pendingPods=$(kubectl get pods |  awk 'match($5,/[0-9]+d/)' | grep Pending | awk '{print $1}' )
+
+    #get driver pods that have finished successfully
+    suceedPods=$(kubectl get pod  --field-selector=status.phase=Succeeded  -l spark-role=driver |  awk '{print $1}' )
 
     echo "NotReady pods: " $notReadyPods
 
-    #delete pods that are in NotReady state and are older than 2 days
+    #delete pods that are in NotReady state
     if [[ -n $notReadyPods ]]; then
       kubectl delete pods $notReadyPods;
       echo "Deleted NotReady pods"
+    fi
+
+    echo "Pending pods: " $pendingPods
+
+    #delete pods that are in Pending state and are older than 2 days
+    if [[ -n $pendingPods ]]; then
+      kubectl delete pods $pendingPods;
+      echo "Deleted Pending pods"
     fi
 
     #delete driver pods that have failed
