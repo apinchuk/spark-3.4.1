@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   hard:
-    cpu: {{ .Values.namespacequota.requests.cpu }}
+    requests.cpu: {{ .Values.namespacequota.requests.cpu }}
     limits.cpu: {{ .Values.namespacequota.limits.cpu }}
-    memory: {{ .Values.namespacequota.requests.memory }}
+    requests.memory: {{ .Values.namespacequota.requests.memory }}
     limits.memory: {{ .Values.namespacequota.limits.memory }}
