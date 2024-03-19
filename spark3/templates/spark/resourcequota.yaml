@@ -12,4 +12,4 @@ spec:
     cpu: {{ .Values.namespacequota.requests.cpu }}
     limits.cpu: {{ .Values.namespacequota.limits.cpu }}
     memory: {{ .Values.namespacequota.requests.memory }}
-    limits.memory: {{ .Values.namespacequota.limits.cpu }}
+    limits.memory: {{ .Values.namespacequota.limits.memory }}
