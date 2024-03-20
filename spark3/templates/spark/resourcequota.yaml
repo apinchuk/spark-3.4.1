@@ -3,7 +3,6 @@ kind: ResourceQuota
 metadata:
   name: {{ include "spark.fullname" . }}-quota
   labels:
-    app.kubernetes.io/name: {{ include "spark-history-server.name" . }}
     helm.sh/chart: {{ include "spark.chart" . }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
