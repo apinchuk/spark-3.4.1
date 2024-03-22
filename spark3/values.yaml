@@ -122,11 +122,11 @@ s3:
   enableS3: true
   enableIAM: false
   # Omit for IAM role-based or provider-based authentication.
-  secreti: aws-secrets
+  secret:
   # accessKeyName is an AWS access key ID. Omit for IAM role-based or provider-based authentication.
-  accessKeyName: access-key
+  accessKeyName:
   # secretKey is AWS secret key. Omit for IAM role-based or provider-based authentication.
-  secretKeyName: secret-key
+  secretKeyName:
   logBucket:
   logDirectory: 
   # custom s3 endpoint. Keep default for using aws s3 endpoint
