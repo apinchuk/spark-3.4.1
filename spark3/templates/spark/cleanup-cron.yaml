@@ -12,6 +12,7 @@ spec:
   schedule: "{{ .Values.podCleanUp.frequency }}"
   jobTemplate:
     spec:
+      backoffLimit: 0
       ttlSecondsAfterFinished: 60
       template:
         spec:
@@ -29,10 +30,10 @@ spec:
                 mountPath: /mnt/
             resources:
               requests:
-                cpu: "0.01"
+                cpu: "0.1"
                 memory: "1Mi"
               limits:
-                cpu: "0.01"
+                cpu: "0.1"
                 memory: "1Mi"
-          restartPolicy: OnFailure
+          restartPolicy: Never
 {{- end }}
