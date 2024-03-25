@@ -22,10 +22,10 @@ spec:
                 name: cleanup-{{ include "spark.fullname" . }}-pods-script
           resources:
             requests:
-              cpu: 0.01
+              cpu: "1"
               memory: "1Mi"
             limits:
-              cpu: 0.01
+              cpu: "1"
               memory: "1Mi"   
           containers:
           - name: {{ include "spark.fullname" . }}-pod-cleanup
