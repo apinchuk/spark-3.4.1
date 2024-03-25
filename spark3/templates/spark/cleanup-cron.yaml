@@ -31,9 +31,9 @@ spec:
             resources:
               requests:
                 cpu: "0.1"
-                memory: "100Mi"
+                memory: "50Mi"
               limits:
                 cpu: "0.1"
-                memory: "100Mi"
+                memory: "50Mi"
           restartPolicy: Never
 {{- end }}
