@@ -20,9 +20,15 @@ spec:
             - name: cleanup-script
               configMap:
                 name: cleanup-{{ include "spark.fullname" . }}-pods-script
+          resources:
+            requests:
+              cpu: 0.01
+              memory: "1Mi"
+            limits:
+              cpu: 0.01
+              memory: "1Mi"   
           containers:
           - name: {{ include "spark.fullname" . }}-pod-cleanup
-            #image: bitnami/kubectl:latest
             image:  apinchuk1/spark-cleanup:1
             command: ["bash", "/mnt/cleanup.sh"]
             volumeMounts:
